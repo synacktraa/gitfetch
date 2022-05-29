@@ -12,6 +12,7 @@ import (
 	"time"
 )
 
+//get color code according to repo language
 func (repo *Repository) getColorCode(lang string) uint8 {
 
 	code := map[string]uint8{}
@@ -31,13 +32,15 @@ func (repo *Repository) getColorCode(lang string) uint8 {
 	return code[lang]
 }
 
+// Branches struct to store the branch name
 type Branches []struct {
 	Name string `json:"name"`
 }
 
-func (storage *Branches) get_branch(url string) []string {
+// get all available branches for specified repository
+func (storage *Branches) getBranch(url string) []string {
 	branchUrl := fmt.Sprintf("%s/branches", url)
-	branchJson := validateRequestAndFetchJson(branchUrl)
+	branchJson := Request(branchUrl)
 
 	branches := func() []string {
 		json.Unmarshal(branchJson, &storage)
@@ -51,10 +54,11 @@ func (storage *Branches) get_branch(url string) []string {
 	return branches
 }
 
+// get total commits of all the branches
 func (repo *Repository) branchCommits(url string) map[string]int {
 
 	br := new(Branches)
-	branches := br.get_branch(url)
+	branches := br.getBranch(url)
 	commitMap := make(map[string]int, len(branches))
 
 	for _, branch := range branches {

@@ -14,6 +14,7 @@ import (
 	"github.com/gookit/color"
 )
 
+// Final user info struct
 type UserInstance struct {
 	Username     string
 	Company      string
@@ -28,6 +29,7 @@ type UserInstance struct {
 	Created      string
 }
 
+// Final repo info struct
 type RepoInstance struct {
 	Name          string
 	Repository    string
@@ -43,7 +45,8 @@ type RepoInstance struct {
 	}
 }
 
-func validateRequestAndFetchJson(url string) []byte {
+// Request function checks status code and evalualtes accordingly
+func Request(url string) []byte {
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -67,16 +70,14 @@ func validateRequestAndFetchJson(url string) []byte {
 	return body
 }
 
+// global variables
 var (
 	setcolor uint8
 	text     = color.C256(231)
 	wg       sync.WaitGroup
 )
 
-type Printer interface {
-	Print(host HostCode, url string)
-}
-
+// Print user stats
 func (user *User) Print(host HostCode, url string) {
 
 	instance := new(UserInstance)
@@ -129,6 +130,7 @@ func (user *User) Print(host HostCode, url string) {
 	}
 }
 
+// Print repo stats
 func (repo *Repository) Print(host HostCode, url string) {
 
 	var commits map[string]int

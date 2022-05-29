@@ -60,7 +60,7 @@ func main() {
 				hostcode = host.Hosts[host_]
 			}
 		}
-		return host.generateUrl(host_, arg)
+		return host.generateURL(host_, arg)
 	}()
 
 	switch choice {

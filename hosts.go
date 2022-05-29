@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// Hostcode
 type HostCode int
 
 const (
@@ -14,10 +15,12 @@ const (
 	gitea
 )
 
+// Host struct which will mapped accordingly
 type Host struct {
 	Hosts map[string]HostCode
 }
 
+// MapHosts maps hosts to their respective hostcode
 func (host *Host) MapHosts() {
 	host.Hosts = map[string]HostCode{
 		"github.com": github,
@@ -32,10 +35,13 @@ func (host *Host) MapHosts() {
 	}
 }
 
-var hostcode HostCode
-var choice string
+var (
+	hostcode HostCode
+	choice   string
+)
 
-func (host *Host) generateUrl(site string, arg []string) string {
+// Returns url according to host and host info
+func (host *Host) generateURL(site string, arg []string) string {
 
 	var url string
 	if len(arg) == 1 {
@@ -64,6 +70,7 @@ func (host *Host) generateUrl(site string, arg []string) string {
 	return url
 }
 
+// User struct to store the user json values
 type User struct {
 	Github struct {
 		Username     string `json:"login"`
@@ -94,6 +101,7 @@ type User struct {
 	Gitea struct{}
 }
 
+// Repository struct to store the repository json values
 type Repository struct {
 	Github struct {
 		Name          string `json:"full_name"`
@@ -126,12 +134,9 @@ type Repository struct {
 	Gitea struct{}
 }
 
-type Requestor interface {
-	Request(url string)
-}
-
+// Request user info
 func (user *User) Request(url string) {
-	jsonDump := validateRequestAndFetchJson(url)
+	jsonDump := Request(url)
 	switch hostcode {
 	case github:
 		json.Unmarshal(jsonDump, &user.Github)
@@ -142,8 +147,9 @@ func (user *User) Request(url string) {
 	}
 }
 
+// Request repository info
 func (repo *Repository) Request(url string) {
-	jsonDump := validateRequestAndFetchJson(url)
+	jsonDump := Request(url)
 	switch hostcode {
 	case github:
 		json.Unmarshal(jsonDump, &repo.Github)
