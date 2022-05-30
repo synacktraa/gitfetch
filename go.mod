@@ -1,4 +1,4 @@
-module gitfetch
+module github.com/newbee1905/gitfetch
 
 go 1.17
 
