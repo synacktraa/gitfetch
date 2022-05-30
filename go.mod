@@ -1,4 +1,4 @@
-module gitfetch
+module github.com/SynAcktraa/gitfetch
 
 go 1.17
 
