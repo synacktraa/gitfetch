@@ -44,7 +44,7 @@ Only go is needed compile. There is no other dependencies.
 Install:
 
 ```sh
-go install github.com/newbee1905/gitfetch@master
+go install github.com/SynAcktraa/gitfetch@master
 ```
 
 Build:
